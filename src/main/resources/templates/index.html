@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Words You've learnt</h1>
+<form action="/search" th:action="@{/search}" method="post">
+Words:
+<select name="word">
+    <option th:each="word : ${words}" th:value="${word.name}">
+        <span th:text="${word.name}"></span>
+    </option>
+</select>
+Genre:
+<select name="genre">
+    <option th:each="video : ${videos}" th:value="${video.genre}">
+        <span th:text="${video.genre}"></span>
+    </option>
+</select>
+
+<button type="submit">Search</button>
+</form>
+</body>
+</html>
