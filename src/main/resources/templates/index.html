@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <div class="container">
+        <h1 class="text-center" style="margin: 50px 0 0 0;">Find Words On Youtube!</h1>
+        <p class="text-center" style="margin-bottom: 25px">ユーチューブでたんごをさがそう!</p>
+        <div id="form-wrapper" class="col-xs-12">
+            <form action="/" th:action="@{/}" th:object="${searchWord}" method="post">
+                <div class="form-group col-xs-offset-0 col-xs-12 col-md-offset-2 col-md-8">
+                    <input class="form-control" type="text" th:field="*{word}" name="word" placeholder="e.g. this">
+                </div>
 
-<h1>Words You've learnt</h1>
-<form action="/search" th:action="@{/search}" method="post">
-Words:
-<select name="word">
-    <option th:each="word : ${words}" th:value="${word.name}">
-        <span th:text="${word.name}"></span>
-    </option>
-</select>
-Genre:
-<select name="genre">
-    <option th:each="video : ${videos}" th:value="${video.genre}">
-        <span th:text="${video.genre}"></span>
-    </option>
-</select>
-
-<button type="submit">Search</button>
-</form>
+                <div class="col-xs-offset-0 col-xs-12 col-md-offset-2 col-md-8">
+                    <button type="submit" class="btn btn-primary btn-block">Search けんさく</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
