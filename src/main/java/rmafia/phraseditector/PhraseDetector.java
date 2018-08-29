@@ -47,6 +47,7 @@ public class PhraseDetector {
         return results;
     }
 
+
     public static String composeUrl(String videoId, String startTime) {
         return "https://www.youtube.com/watch?v="+videoId+"&t="+startTime;
     }
