@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        function foo(id){
+            var subtitle = document.getElementById(id);
+            var start = subtitle.getAttribute("start");
+            var dur = subtitle.getAttribute("dur");
+
+
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center" style="margin: 50px 0 0 0;">Find Words On Youtube!</h1>
+        <p class="text-center" style="margin-bottom: 25px">ユーチューブでたんごをさがそう!</p>
+        <h1>[[${video.title}]]</h1>
+        <img th:src="${thumbnail}">
+        <div th:each="data:${subtitleData}">
+            <p th:onclick="'foo(' + ${data.start} + ')'" th:id="${data.start}" th:start="${data.start}" th:dur="${data.dur}">[[${data.text}]]</p>
+        </div>
+    </div>
+</body>
+</html>

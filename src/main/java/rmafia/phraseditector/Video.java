@@ -1,17 +1,16 @@
 package rmafia.phraseditector;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@NamedQuery(name="find_by_title", query="select v from Video v where v.title = :val")
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String videoId;
-    private String genre;
+    private String title;
+    private int filter;
 
     public int getId() {
         return id;
@@ -29,11 +28,19 @@ public class Video {
         this.videoId = videoId;
     }
 
-    public String getGenre() {
-        return genre;
+    public int getFilter() {
+        return filter;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setFilter(int filter) {
+        this.filter = filter;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

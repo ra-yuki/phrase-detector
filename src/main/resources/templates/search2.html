@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center" style="margin: 50px 0 0 0;">Search Result: [[${searchWord.word}]]</h1>
+        <p class="text-center" style="margin-bottom: 25px">けんさくけっか: [[${searchWord.word}]]</p>
+        <p class="text-center"><a href="/" class="btn btn-primary">Back もどる</a></p>
+        <div th:each="data:${dataset}">
+            <p>VideoId: [[${data.get(0)}]] | Title: [[${data.get(1)}]] | Counts: [[${data.get(2)}]]</p>
+        </div>
+    </div>
+</body>
+</html>

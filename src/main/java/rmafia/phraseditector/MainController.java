@@ -15,10 +15,18 @@ import java.util.List;
 public class MainController {
     @Autowired
     VideoRepository videoRepository;
+    @Autowired
+    VideoRepositoryCustom videoRepositoryCustom;
+
     @GetMapping("/test")
     public HashMap<String, Float> searchWordFromSubtitles(){
         List<Video> videos = videoRepository.findAll();
         return PhraseDetector.searchWordFromSubtitles("think", videos);
+    }
+
+    @GetMapping("/video")
+    public Video getVideo(){
+        return videoRepositoryCustom.findByVideoId("5nlG0svf9t4");
     }
 
 }

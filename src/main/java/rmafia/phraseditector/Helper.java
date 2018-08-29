@@ -11,18 +11,12 @@ import java.net.URLConnection;
 @Component
 public class Helper {
     @Autowired
-    WordRepository repository;
-    public void addNew(String name){
-        Word word = new Word();
-        word.setName(name);
-        repository.save(word);
-    }
-    @Autowired
     VideoRepository videoRepository;
-    public void addNewVideo(String videoId, String genre){
+    public void addNewVideo(String videoId, int filter, String title){
         Video video = new Video();
         video.setVideoId(videoId);
-        video.setGenre(genre);
+        video.setFilter(filter);
+        video.setTitle(title);
         videoRepository.save(video);
     }
 

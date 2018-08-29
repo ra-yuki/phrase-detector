@@ -11,7 +11,13 @@ public class PhraseDitectorApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext =
-        SpringApplication.run(PhraseDitectorApplication.class, args);
+                SpringApplication.run(PhraseDitectorApplication.class, args);
+
+        Helper helper = applicationContext.getBean(Helper.class);
+        helper.addNewVideo("5nlG0svf9t4", 1, "COLLEGE KIDS REACT TO TAYLOR SWIFT - REPUTATION (Full Album Reaction)");
+        helper.addNewVideo("foTjlGz-u50", 1, "YouTubers React To Try To Watch This Without Laughing or Grinning #10");
+        helper.addNewVideo("brCmJxyQkNk", 1, "KIDS REACT TO TRY NOT TO MOVE CHALLENGE #2");
+        helper.addNewVideo("0bYETPZXi7w", 1, "DO TEENS KNOW 2000s ANIME? (REACT: Do They Know It?)");
     }
 
 }

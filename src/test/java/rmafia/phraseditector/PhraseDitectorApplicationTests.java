@@ -11,6 +11,7 @@ public class PhraseDitectorApplicationTests {
 
     @Test
     public void contextLoads() {
+        System.out.println(PhraseDetector.getSubtitlesData("5nlG0svf9t4"));
     }
 
 }
