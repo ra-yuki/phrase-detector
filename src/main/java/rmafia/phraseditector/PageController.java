@@ -3,10 +3,7 @@ package rmafia.phraseditector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +42,7 @@ public class PageController {
             list.add(key);
             list.add(v.getTitle());
             list.add(""+value.size());
+            list.add(YoutubeHelper.composeThumbnailUrl(v.getVideoId()));
             dataset.add(list);
         }
 
@@ -72,7 +70,12 @@ public class PageController {
     * > - video obj
     * */
     @GetMapping("/player/{videoId}/{keyword}")
-    public String showPlayer(@PathVariable String videoId, @PathVariable String keyword, Model model){
+    public String showPlayer(
+            @PathVariable String videoId,
+            @PathVariable String keyword,
+            Model model
+    ){
+        System.out.println("hey");
         //get start time list
         List<Video> vids = new ArrayList<Video>();
         vids.add(videoRepositoryCustom.findByVideoId(videoId));
@@ -86,11 +89,10 @@ public class PageController {
         Video v = videoRepositoryCustom.findByVideoId(videoId);
         String thumbnail = YoutubeHelper.composeThumbnailUrl(videoId);
 
-        System.out.println("sub data: "+subtitleData.size());
-
         model.addAttribute("video", v);
         model.addAttribute("thumbnail", thumbnail);
         model.addAttribute("subtitleData", subtitleData);
+        model.addAttribute("keyword", keyword);
 
         return "player";
     }
