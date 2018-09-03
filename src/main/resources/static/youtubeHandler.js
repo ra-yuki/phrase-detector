@@ -14,15 +14,16 @@ function onYouTubeIframeAPIReady() {
     height: '390',
     width: '640',
     videoId: videoId,
-    playerVars: {
-        start: 25,
-        end: 30
-    },
     events: {
       'onReady': onPlayerReady
     }
   });
 }
+// params for new YT.Player()
+//    playerVars: {
+//        start: 25,
+//        end: 30
+//    },
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
