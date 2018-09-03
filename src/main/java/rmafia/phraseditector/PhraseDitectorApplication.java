@@ -1,10 +1,9 @@
 package rmafia.phraseditector;
 
-import org.apache.catalina.core.ApplicationContext;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import rmafia.phraseditector.helpers.DBSchemaHelper;
 
 @SpringBootApplication
 public class PhraseDitectorApplication {
@@ -13,7 +12,7 @@ public class PhraseDitectorApplication {
         ConfigurableApplicationContext applicationContext =
                 SpringApplication.run(PhraseDitectorApplication.class, args);
 
-        Helper helper = applicationContext.getBean(Helper.class);
+        DBSchemaHelper helper = applicationContext.getBean(DBSchemaHelper.class);
         helper.addNewVideo("5nlG0svf9t4", 1, "COLLEGE KIDS REACT TO TAYLOR SWIFT - REPUTATION (Full Album Reaction)");
         helper.addNewVideo("foTjlGz-u50", 1, "YouTubers React To Try To Watch This Without Laughing or Grinning #10");
         helper.addNewVideo("brCmJxyQkNk", 1, "KIDS REACT TO TRY NOT TO MOVE CHALLENGE #2");

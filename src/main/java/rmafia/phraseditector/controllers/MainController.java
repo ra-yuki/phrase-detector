@@ -1,9 +1,16 @@
-package rmafia.phraseditector;
+package rmafia.phraseditector.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import rmafia.phraseditector.entities.Video;
+import rmafia.phraseditector.helpers.PhraseDetector;
+import rmafia.phraseditector.helpers.YoutubeHelper;
+import rmafia.phraseditector.helpers.constructors.SearchWord;
+import rmafia.phraseditector.helpers.constructors.SubtitleData;
+import rmafia.phraseditector.repositories.VideoRepository;
+import rmafia.phraseditector.repositories.VideoRepositoryCustom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +19,10 @@ import java.util.Map;
 
 @Controller
 
-public class PageController {
+public class MainController {
     @Autowired
     VideoRepository videoRepository;
+
     @Autowired
     VideoRepositoryCustom videoRepositoryCustom;
 
@@ -47,35 +55,17 @@ public class PageController {
         }
 
         model.addAttribute("dataset", dataset);
-        return "search2";
-    }
-    /* archived
-    public String wordSubmit(@ModelAttribute SearchWord searchWord, Model model){
-        HashMap<String, Float> results = PhraseDetector.searchWordFromSubtitles(searchWord.getWord(),videoRepository.findAll());
-        List<String> urls = new ArrayList<String>();
-        for (Map.Entry<String, Float> entry : results.entrySet()) {
-            String key = entry.getKey();
-            float value = entry.getValue();
-            urls.add(PhraseDetector.composeUrlEmbed(key, value));
-        }
-        model.addAttribute("urls", urls);
         return "search";
     }
-    * */
 
-    /*
-    * what we need
-    * - text list
-    * - video embed
-    * > - video obj
-    * */
-    @GetMapping("/player/{videoId}/{keyword}")
+    @GetMapping("/player")
     public String showPlayer(
-            @PathVariable String videoId,
-            @PathVariable String keyword,
+            @RequestParam("v") String videoId,
+            @RequestParam("k") String keyword,
+            @RequestParam("start") String startTime,
+            @RequestParam("dur") String duration,
             Model model
     ){
-        System.out.println("hey");
         //get start time list
         List<Video> vids = new ArrayList<Video>();
         vids.add(videoRepositoryCustom.findByVideoId(videoId));
@@ -83,7 +73,7 @@ public class PageController {
         List<Float> startTimes = results.get(videoId);
 
         //get subtitle data
-        List<SubtitleData> subtitleData = PhraseDetector.extractSubtitlesByStartTimes(videoId, startTimes);
+        List<SubtitleData> subtitleData = YoutubeHelper.extractSubtitlesByStartTimes(videoId, startTimes);
 
         //get video obj
         Video v = videoRepositoryCustom.findByVideoId(videoId);

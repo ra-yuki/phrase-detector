@@ -1,4 +1,4 @@
-package rmafia.phraseditector;
+package rmafia.phraseditector.helpers.constructors;
 
 public class SearchWord {
 

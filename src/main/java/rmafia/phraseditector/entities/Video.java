@@ -1,4 +1,4 @@
-package rmafia.phraseditector;
+package rmafia.phraseditector.entities;
 
 import javax.persistence.*;
 

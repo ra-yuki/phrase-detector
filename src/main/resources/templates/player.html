@@ -67,7 +67,7 @@
         <h2>[[${video.title}]]</h2>
         <h3>List of texts that have: <b>[[${keyword}]]</b></h3>
         <div th:each="data:${subtitleData}" class="col-xs-12">
-            <a style="text-decoration: none;" th:href="'/player/' + ${video.videoId} + '/' + ${keyword} + '?start=' + ${data.start} + '&dur=' + ${data.dur}">
+            <a style="text-decoration: none;" th:href="'/player?v=' + ${video.videoId} + '&k=' + ${keyword} + '&start=' + ${data.start} + '&dur=' + ${data.dur}">
                 <div class="alert alert-info">
                     [[${data.text}]]
                 </div>

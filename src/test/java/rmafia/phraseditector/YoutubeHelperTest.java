@@ -2,6 +2,7 @@ package rmafia.phraseditector;
 
 import org.junit.Assert;
 import org.junit.Test;
+import rmafia.phraseditector.helpers.YoutubeHelper;
 
 import java.io.IOException;
 import java.net.URL;

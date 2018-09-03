@@ -1,4 +1,4 @@
-package rmafia.phraseditector;
+package rmafia.phraseditector.helpers;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
