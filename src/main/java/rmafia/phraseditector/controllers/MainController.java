@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-
 public class MainController {
     @Autowired
     VideoRepository videoRepository;
@@ -62,8 +61,8 @@ public class MainController {
     public String showPlayer(
             @RequestParam("v") String videoId,
             @RequestParam("k") String keyword,
-            @RequestParam("start") String startTime,
-            @RequestParam("dur") String duration,
+//            @RequestParam("start") String startTime,
+//            @RequestParam("dur") String duration,
             Model model
     ){
         //get start time list

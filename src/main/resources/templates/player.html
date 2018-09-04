@@ -19,7 +19,6 @@
         <p class="text-center" style="margin-bottom: 25px">ユーチューブでたんごをさがそう!</p>
         <p class="text-center"><a href="/" class="btn btn-success">Home ほーむ</a></p>
 
-        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
         <div class="row">
             <div id="player" class="col-xs-offset-2 col-xs-8"></div>
         </div>
@@ -30,12 +29,11 @@
         <h2>[[${video.title}]]</h2>
         <h3>List of texts that have: <b>[[${keyword}]]</b></h3>
         <div th:each="data:${subtitleData}" class="col-xs-12">
-            <a style="text-decoration: none;" th:href="'/player?v=' + ${video.videoId} + '&k=' + ${keyword} + '&start=' + ${data.start} + '&dur=' + ${data.dur}">
+            <a style="text-decoration: none;" href="#" th:onclick="'onClickLoadVideo(' + ${data.start} + ',' + ${data.dur} + ')'">
                 <div class="alert alert-info">
                     [[${data.text}]]
                 </div>
             </a>
-            <button class="btn btn-danger" th:onclick="'onClickLoadVideo(' + ${data.start} + ',' + ${data.dur} + ')'">Boom</button>
         </div>
     </div>
 </body>
