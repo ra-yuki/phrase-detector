@@ -26,4 +26,4 @@
 /.nb-gradle/
 
 ## Spring Boot ##
-*.properties
+application.properties
