@@ -18,9 +18,14 @@
         <h1 class="text-center" style="margin: 50px 0 0 0;">Find Words On Youtube!</h1>
         <p class="text-center" style="margin-bottom: 25px">ユーチューブでたんごをさがそう!</p>
         <div id="form-wrapper" class="col-xs-12">
-            <form action="/" th:action="@{/}" th:object="${searchWord}" method="post">
+            <form action="/youtube" th:action="@{/youtube}" th:object="${indexFormDataset}" method="post">
                 <div class="form-group col-xs-offset-0 col-xs-12 col-md-offset-2 col-md-8">
+                    <h3>Searching Vocab</h3>
                     <input class="form-control" type="text" th:field="*{word}" name="word" placeholder="e.g. this">
+                </div>
+                <div class="form-group col-xs-offset-0 col-xs-12 col-md-offset-2 col-md-8">
+                    <h3>Keyword on Youtube</h3>
+                    <input class="form-control" type="text" th:field="*{ytQuery}" name="ytQuery" placeholder="e.g. katy perry">
                 </div>
 
                 <div class="col-xs-offset-0 col-xs-12 col-md-offset-2 col-md-8">

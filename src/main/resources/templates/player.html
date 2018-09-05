@@ -29,7 +29,7 @@
         <h2>[[${video.title}]]</h2>
         <h3>List of texts that have: <b>[[${keyword}]]</b></h3>
         <div th:each="data:${subtitleData}" class="col-xs-12">
-            <a style="text-decoration: none;" href="#" th:onclick="'onClickLoadVideo(' + ${data.start} + ',' + ${data.dur} + ')'">
+            <a style="text-decoration: none;" href="#" th:onclick="'onClickLoadVideo(' + ${data.start} + ',' + ' ' + ')'">
                 <div class="alert alert-info">
                     [[${data.text}]]
                 </div>
