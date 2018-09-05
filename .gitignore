@@ -27,3 +27,6 @@
 
 ## Spring Boot ##
 application.properties
+
+## My Own Stuffs ##
+_Config_.java
