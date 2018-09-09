@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import rmafia.phraseditector.entities.Video;
+import rmafia.phraseditector.helpers.apiHandlers.PurgoMalumAPIHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class PhraseDetector {
-
-
     public static String searchWord(String word, Document document) {
         word = word.toLowerCase();
         for(Element e : document.select("text")){
@@ -111,18 +110,109 @@ public class PhraseDetector {
 
     //youtube data api with eng sub video extracted case
     public static HashMap<String, List<Float>>searchWordFromSubtitlesAll(boolean thisOneIs4YTAPIExtracted, String keyword, List<HashMap<String, String>> videosEngSub){
-        HashMap<String, List<Float>> results = new HashMap<String, List<Float>>();
+        HashMap<String, List<Float>> matches = new HashMap<String, List<Float>>();
         keyword = keyword.replaceAll("%20", " "); //converting back from ascii to space
 
         for (HashMap<String, String> video : videosEngSub) {
             Document doc = YoutubeHelper.getSubtitlesData(video);
-            List<Float> startTimes = PhraseDetector.searchWordAll(keyword+" ", doc);
+            List<Float> startTimes = PhraseDetector.searchWordAll(keyword + " ", doc);
 
+            //put to matches hashmap if the keyword hit
             if(startTimes.size() > 0) {
-                results.put(video.get("videoId"), startTimes);
+                matches.put(video.get("videoId"), startTimes);
             }
         }
 
-        return results;
+        return matches;
+    }
+
+    @Deprecated
+    public static boolean hasProfanity(String text){
+        PurgoMalumAPIHandler purgoMalumAPIHandler = new PurgoMalumAPIHandler();
+        purgoMalumAPIHandler.appendToQuery("json");
+
+        purgoMalumAPIHandler.addParam("text", text);
+
+        String response = purgoMalumAPIHandler.executeGetRequest();
+
+        if(response.indexOf("*") >= 0) System.out.println(response);
+
+        return response.indexOf("*") >= 0;
+    }
+
+    public static boolean hasProfanityNoAPI(String text){
+        String[] profanities = new String[]{
+                "fuck", "fucked", "fuckedup", "fucker", "fuckers",
+                "shit",
+                "ass", "asses", "assface", "assfaces",
+                "asshole", "assholes", "bastard", "bastards",
+                "bitch", "bitches", "bitchy", "bullshit",
+                "fucking", "fuckoff", "fucks", "fuckup"
+        };
+
+        for(String p : profanities){
+            p = " " + p + " "; //need some more work to legitimize this
+            if(text.indexOf(p) >= 0){
+                System.out.println("hasProfanityNoAPI: true: "+text.replaceAll(p, "***"));
+                return true;
+            }
+        }
+
+        System.out.println("hasProfanityNoAPI: false");
+        return false;
+    }
+
+    @Deprecated
+    public static boolean hasProfanityOnDocument(Document document){
+        int max = 2000 - "https://www.purgomalum.com/service/containsprofanity?text=".length();
+        List<String> textList = new ArrayList<String>();
+
+        String placeholder = "";
+        for(Element e : document.select("text")){
+            String cleanedText = e.text()
+                    .replaceAll("[\\s]+", " ")
+                    .replaceAll("[\\W&&\\S]+", "");
+
+            if(placeholder.length() + cleanedText.length() < max){
+                placeholder += cleanedText;
+            }
+            else{
+                textList.add(placeholder);
+                placeholder = "";
+            }
+        }
+
+        for(String t : textList){
+            if(hasProfanity(t)){
+                System.out.println("profanity hit on: "+t);
+                return true;
+            }
+        }
+
+        System.out.println(textList.size());
+
+        return false;
+    }
+
+    public static boolean hasProfanityOnDocumentNoAPI(Document document){
+        String text = "";
+        for(Element e : document.select("text")) {
+            String cleanedText = e.text()
+//                    .replaceAll("[\\s]+", " ")
+                    .replaceAll("&#39;", "\'")
+                    .replaceAll("[\\W&&\\S]+", "");
+
+            text += " " + cleanedText;
+        }
+
+        if(
+                hasProfanityNoAPI( text.replaceAll("[\\s]+", " ") )
+        ){
+            System.out.println("profanity hit on: "+text);
+            return true;
+        }
+
+        System.out.println("no profanity on: "+text);
+        return false;
     }
 }

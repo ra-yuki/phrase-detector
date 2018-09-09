@@ -68,7 +68,7 @@ public class MainController {
     public String searchReqWordOnYoutube(@ModelAttribute IndexFormDataset indexFormDataset, Model model){
         List<HashMap<String, String>> ytVids = youtubeSearchService.searchEnglishSubVidsOnYoutube(
                 indexFormDataset.getYtQuery(),
-                10
+                20
         );
 
         HashMap<String, List<Float>> ytVidIdsWithKeywordTimes = youtubeSearchService.searchVidsContainingKeyword(
@@ -102,6 +102,58 @@ public class MainController {
         }
 
         model.addAttribute("dataset", dataset);
+
+        return "search";
+    }
+
+    @GetMapping("/manami")
+    public String searchReqWordOnYoutubeFromManami(
+            @RequestParam("q") String query,
+            @RequestParam("k") String keyword,
+            Model model
+    ){
+        IndexFormDataset indexFormDataset = new IndexFormDataset();
+        indexFormDataset.setWord(keyword);
+        indexFormDataset.setYtQuery(query);
+
+        //copied from searchReqWordOnYoutube
+        List<HashMap<String, String>> ytVids = youtubeSearchService.searchEnglishSubVidsOnYoutube(
+                indexFormDataset.getYtQuery(),
+                20
+        );
+
+        HashMap<String, List<Float>> ytVidIdsWithKeywordTimes = youtubeSearchService.searchVidsContainingKeyword(
+                indexFormDataset.getWord(),
+                ytVids
+        );
+
+        List<String> videoIds = new ArrayList<String>();
+        List<String> titles = new ArrayList<>();
+        List<String> counts = new ArrayList<String>();
+        List<List<String>> dataset = new ArrayList<List<String>>();
+
+        for(HashMap<String, String> ytVid : ytVids){
+            //var declarations
+            String videoId = ytVid.get("videoId");
+            String title = ytVid.get("title");
+            String thumbnail = ytVid.get("thumbnail");
+
+            System.out.println(ytVid);
+
+            //exception handling
+            if(!ytVidIdsWithKeywordTimes.containsKey(videoId)) continue;
+
+            //storing relevant data to pass to view
+            List<String> list = new ArrayList<String>();
+            list.add(videoId);
+            list.add(title);
+            list.add( Integer.toString(ytVidIdsWithKeywordTimes.get(videoId).size()) );
+            list.add(thumbnail);
+            dataset.add(list);
+        }
+
+        model.addAttribute("dataset", dataset);
+        model.addAttribute("indexFormDataset", indexFormDataset);
 
         return "search";
     }
