@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import rmafia.phraseditector.entities.Video;
 import rmafia.phraseditector.helpers.apiHandlers.PurgoMalumAPIHandler;
+import rmafia.phraseditector.helpers.configs.ProfanityConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,7 +119,7 @@ public class PhraseDetector {
             List<Float> startTimes = PhraseDetector.searchWordAll(keyword + " ", doc);
 
             //put to matches hashmap if the keyword hit
-            if(startTimes.size() > 0) {
+            if(startTimes.size() > 0 && !hasProfanityOnDocumentNoAPI(doc)) {
                 matches.put(video.get("videoId"), startTimes);
             }
         }
@@ -141,14 +142,8 @@ public class PhraseDetector {
     }
 
     public static boolean hasProfanityNoAPI(String text){
-        String[] profanities = new String[]{
-                "fuck", "fucked", "fuckedup", "fucker", "fuckers",
-                "shit",
-                "ass", "asses", "assface", "assfaces",
-                "asshole", "assholes", "bastard", "bastards",
-                "bitch", "bitches", "bitchy", "bullshit",
-                "fucking", "fuckoff", "fucks", "fuckup"
-        };
+        String[] profanities = ProfanityConfig.profanities;
+        text = text.toLowerCase();
 
         for(String p : profanities){
             p = " " + p + " "; //need some more work to legitimize this
@@ -198,7 +193,6 @@ public class PhraseDetector {
         String text = "";
         for(Element e : document.select("text")) {
             String cleanedText = e.text()
-//                    .replaceAll("[\\s]+", " ")
                     .replaceAll("&#39;", "\'")
                     .replaceAll("[\\W&&\\S]+", "");
 
