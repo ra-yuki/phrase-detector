@@ -77,6 +77,35 @@ public class YoutubeHelper {
         return videosEngSub;
     }
 
+    public static HashMap<String, String> extractVideoInfoById(String videoId){
+        HashMap<String, String> videoInfo = new HashMap<String, String>();
+
+        //send http request to get subtitle metadata
+        String url = SUBTITLE_METADATA_URL.replaceAll("@videoId", videoId);
+        String data = MyFileUtil.fileGetContents(url).toString();
+
+        //parse the metadata (XML) to Document
+        Document doc = Jsoup.parse(data, "", Parser.xmlParser());
+
+        //search for en sub
+        for(Element track : doc.select("track")){
+            //exception handling
+            if(track.attr("lang_code").indexOf("en") < 0) continue;
+
+            //== store video info ==
+            videoInfo.put("videoId", videoId);
+            videoInfo.put("name", track.attr("name").replaceAll(" ", "%20")); //converting space to ascii
+            videoInfo.put("lang_code", track.attr("lang_code"));
+            videoInfo.put("lang_original", track.attr("lang_original"));
+
+            //break for loop (because en sub already found)
+            break;
+        }
+
+        return videoInfo;
+    }
+
+    @Deprecated
     public static Document getSubtitlesData(String videoId) {
         String url = SUBTITLE_URL.replaceAll("@videoId", videoId);
 
@@ -101,7 +130,7 @@ public class YoutubeHelper {
     }
 
     public static List<SubtitleData> extractSubtitlesByStartTimes(String videoId, List<Float> startTimes){
-        Document document = getSubtitlesData(videoId);
+        Document document = getSubtitlesData(extractVideoInfoById(videoId));
 
         List<SubtitleData> data = new ArrayList<SubtitleData>();
 
