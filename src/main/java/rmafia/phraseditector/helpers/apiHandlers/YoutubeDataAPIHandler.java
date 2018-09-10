@@ -35,7 +35,7 @@ public class YoutubeDataAPIHandler implements APIHandler<String, String> {
             sParams += (sParams == "?") ? key+"="+value : "&" + key+"="+value;
         }
 
-//        System.out.println("YoutubeAPI execute: "+query+sParams);
+        System.out.println("YoutubeAPI execute: "+query+sParams);
         String response = MyFileUtil.fileGetContents(query+sParams).toString();
 
         return response;

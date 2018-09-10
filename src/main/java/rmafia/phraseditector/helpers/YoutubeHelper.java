@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import rmafia.phraseditector.helpers.constructors.SubtitleData;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -127,6 +128,20 @@ public class YoutubeHelper {
 
         Document doc = Jsoup.parse(data, "", Parser.xmlParser());
         return doc;
+    }
+
+    public static List<HashMap<String, String>> organizeSubtitles(Document document){
+        List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+        for(Element e : document.select("text")){
+            HashMap<String, String> submap = new HashMap<String, String>();
+            submap.put("text", e.text());
+            submap.put("start", e.attr("start"));
+            submap.put("dur", e.attr("dur"));
+
+            list.add(submap);
+        }
+
+        return list;
     }
 
     public static List<SubtitleData> extractSubtitlesByStartTimes(String videoId, List<Float> startTimes){
